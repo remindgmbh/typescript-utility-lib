@@ -1,0 +1,23 @@
+{
+  "name": "@remind/util",
+  "version": "0.1.0",
+  "description": "Utility functions",
+  "main": "index.js",
+  "dependencies": {
+    "awesome-typescript-loader": "^5.0.0",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.9.1",
+    "webpack": "^4.12.0"
+  },
+  "scripts": {
+    "postinstall": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/remindgmbh/remind-util/"
+  },
+  "author": "Hauke Schulz <h.schulz@remind.de> (https://www.remind.de/)",
+  "license": "BSD-3-Clause",
+  "private": true
+}
