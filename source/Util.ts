@@ -14,6 +14,9 @@ export interface HTMLElementDimension extends Object {
   right: number
 }
 
+/** Stupid type for accessing objects. */
+type AnyObject = { [index: string]: any, [index: number]: any }
+
 /**
  * Takes any string and returns the given string with the first character
  * capitalized and the rest of the string in lower case.
@@ -35,7 +38,7 @@ export function ucfirst(text: string): string {
  * @param glue The glue used to concat values.
  * @returns All values of the given object.
  */
-export function concatValues(obj: Object, glue: string): string {
+export function concatValues(obj: AnyObject, glue: string): string {
 
   let storage: Array<string> = [];
 
@@ -58,9 +61,6 @@ export function concatValues(obj: Object, glue: string): string {
       storage.push(obj[prop]);
     }
   }
-
-
-  // storage = storage.clean('');
 
   return storage.join(glue);
 }
@@ -189,10 +189,10 @@ export function removeEventListenerFromElements(cssClass: string, event: string,
  * @param obj2 The second object
  * @returns The resulting merged object
  */
-export function mergeObjects(obj1: object, obj2: object): object {
+export function mergeObjects(obj1: AnyObject, obj2: AnyObject): object {
 
   /* The object containing all attributes */
-  let merged = {};
+  let merged: AnyObject = {};
 
   /* Copy all attributes from both objects into the new object */
   for (let attr1 in obj1) { merged[attr1] = obj1[attr1]; }
