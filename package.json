@@ -1,13 +1,13 @@
 {
-  "name": "@remind/util",
+  "name": "@remindgmbh/util",
   "version": "0.1.0",
   "description": "Utility functions",
   "main": "index.js",
   "dependencies": {
-    "awesome-typescript-loader": "^5.0.0",
-    "source-map-loader": "^0.2.3",
-    "typescript": "^2.9.1",
-    "webpack": "^4.12.0"
+    "awesome-typescript-loader": "^5.2.1",
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.7.2",
+    "webpack": "^4.32.2"
   },
   "scripts": {
     "postinstall": "tsc -p .",
