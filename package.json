@@ -10,7 +10,7 @@
     "webpack": "^4.32.2"
   },
   "scripts": {
-    "postinstall": "tsc -p .",
+    "postinstall": "./node_modules/.bin/tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
