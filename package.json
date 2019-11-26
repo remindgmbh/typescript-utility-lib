@@ -4,10 +4,7 @@
   "description": "Utility functions",
   "main": "index.js",
   "dependencies": {
-    "awesome-typescript-loader": "^5.2.1",
-    "source-map-loader": "^0.2.4",
-    "typescript": "^3.7.2",
-    "webpack": "^4.32.2"
+    "typescript": "^3.7.2"
   },
   "scripts": {
     "postinstall": "tsc -p .",
