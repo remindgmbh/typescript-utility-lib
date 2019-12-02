@@ -14,8 +14,68 @@ export interface HTMLElementDimension extends Object {
   right: number
 }
 
+export interface PayloadInterface {
+  detail: object;
+  bubbles: boolean;
+  cancelable: boolean;
+}
+
 /** Stupid type for accessing objects. */
 type AnyObject = { [index: string]: any, [index: number]: any }
+
+/** Element types */
+type AllElements =  {
+  'a': HTMLAnchorElement;
+  'div': HTMLDivElement;
+  'span': HTMLSpanElement;
+  'ul': HTMLUListElement;
+  'textarea': HTMLTextAreaElement;
+  'tfoot': HTMLTableSectionElement;
+  'thead': HTMLTableSectionElement;
+  'tbody': HTMLTableSectionElement;
+  'tr': HTMLTableRowElement;
+  'table': HTMLTableElement;
+  'th': HTMLTableHeaderCellElement;
+  'td': HTMLTableDataCellElement;
+  'caption': HTMLTableCaptionElement;
+  'select': HTMLSelectElement;
+  'script': HTMLScriptElement;
+  'q': HTMLQuoteElement;
+  'p': HTMLParagraphElement;
+  'option': HTMLOptionElement;
+  'optgroup': HTMLOptGroupElement;
+  'ol': HTMLOListElement;
+  'meta': HTMLMetaElement;
+  'video': HTMLVideoElement;
+  'audio': HTMLAudioElement;
+  'link': HTMLLinkElement;
+  'legend': HTMLLegendElement;
+  'label': HTMLLabelElement;
+  'li': HTMLLIElement;
+  'input': HTMLInputElement;
+  'img': HTMLImageElement;
+  'iframe': HTMLIFrameElement;
+  'h1': HTMLHeadingElement;
+  'h2': HTMLHeadingElement;
+  'h3': HTMLHeadingElement;
+  'h4': HTMLHeadingElement;
+  'h5': HTMLHeadingElement;
+  'h6': HTMLHeadingElement;
+  'hr': HTMLHRElement;
+  'form': HTMLFormElement;
+  'fieldset': HTMLFieldSetElement;
+  'embed': HTMLEmbedElement;
+  'canvas': HTMLCanvasElement;
+  'button': HTMLButtonElement;
+  'br': HTMLBRElement;
+}
+
+/** Dynamic HTML element types */
+type CreatedHTMLElement<T extends keyof AllElements> = AllElements[T];
+
+/** HTML element type by string, Default HTMLElement */
+type CreatedElement<T extends string> =
+    T extends keyof AllElements ? CreatedHTMLElement<T> : HTMLElement;
 
 /**
  * Takes any string and returns the given string with the first character
@@ -66,8 +126,8 @@ export function concatValues(obj: AnyObject, glue: string): string {
 }
 
 /**
- * 
- * @param item 
+ *
+ * @param item
  */
 export function decodeListItem(item: string): string {
   return decodeURIComponent(escape(atob(item)));
@@ -300,7 +360,7 @@ export function uuid(): string {
     const r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
     return v.toString(16);
   });
-};
+}
 
 /**
  * Executes a callback when the document is ready by first checking if the
@@ -410,7 +470,7 @@ export function getParentWithData(element: HTMLElement, attr: string): HTMLEleme
     let parent: HTMLElement|null = element.parentElement;
 
     if (parent !== null) {
-      
+
       /* Recursive call */
       return getParentWithData(parent, attr);
     }
@@ -418,3 +478,42 @@ export function getParentWithData(element: HTMLElement, attr: string): HTMLEleme
 
   return element;
 }
+
+/**
+ * Browser compatible function to dispatch custom events
+ *
+ * @param target
+ * @param eventName
+ * @param payload
+ * @returns
+ */
+export function dispatchCustomEvent(target: EventTarget, eventName: string, payload: PayloadInterface = {detail: {}, bubbles: false, cancelable: false}): void {
+  let event: CustomEvent;
+
+  /*
+   * Microsoft Internet Explorer
+   * typeof(Event) == object
+   *
+   * Chrome / Safari / MI Edge / Firefox
+   * typeof(Event) == function
+   *
+   * Create event object or function, add eventName and payload
+   */
+  if (typeof(Event) === 'function') {
+    event = new CustomEvent(eventName, payload);
+  } else {
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent(eventName, payload.bubbles, payload.cancelable, payload.detail);
+  }
+
+  /* Dispatch event on target */
+  target.dispatchEvent(event);
+}
+
+/**
+ * Create html element by string and set it as type
+ *
+ * @param tag
+ * @param options
+ */
+export declare function createElement<T extends string>(tag: T, options?: any): CreatedElement<T>
