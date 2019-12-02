@@ -514,6 +514,24 @@ export function dispatchCustomEvent(target: EventTarget, eventName: string, payl
  * Create html element by string and set it as type
  *
  * @param tag
- * @param options
  */
-export declare function createElement<T extends string>(tag: T, options?: any): CreatedElement<T>
+function createElement<T extends string>(tag: T): CreatedElement<T> {
+  return <CreatedElement<T>>document.createElement(tag)
+}
+
+/**
+ * Add properties to HTMLElement
+ *
+ * @param tag
+ * @param props
+ * @return CreatedElement<T>
+ */
+export function elementFactory<T extends string>(tag: T,
+                                                 props: Partial<CreatedElement<T>>) : CreatedElement<T> {
+
+  let element: CreatedElement<T> = createElement(tag);
+
+  element = Object.assign(element, props);
+
+  return element;
+}
