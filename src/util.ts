@@ -74,7 +74,7 @@ type AllElements =  {
 type CreatedHTMLElement<T extends keyof AllElements> = AllElements[T];
 
 /** HTML element type by string, Default HTMLElement */
-type CreatedElement<T extends string> =
+export type CreatedElement<T extends string> =
     T extends keyof AllElements ? CreatedHTMLElement<T> : HTMLElement;
 
 /**
