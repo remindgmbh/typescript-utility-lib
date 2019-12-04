@@ -526,8 +526,7 @@ function createElement<T extends string>(tag: T): CreatedElement<T> {
  * @param props
  * @return CreatedElement<T>
  */
-export function elementFactory<T extends string>(tag: T,
-                                                 props: Partial<CreatedElement<T>>) : CreatedElement<T> {
+export function elementFactory<T extends string>(tag: T, props: Partial<CreatedElement<T>>) : CreatedElement<T> {
 
   let element: CreatedElement<T> = createElement(tag);
 
