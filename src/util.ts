@@ -1,3 +1,7 @@
+import { AnyObject } from './Types'
+export { ucfirst, concatValues } from './StringFunctions'
+export { uuid } from './Uuid'
+
 export interface ScriptTagAttributes extends Object {
   type: string,
   async: boolean,
@@ -19,9 +23,6 @@ export interface PayloadInterface {
   bubbles: boolean;
   cancelable: boolean;
 }
-
-/** Stupid type for accessing objects. */
-type AnyObject = { [index: string]: any, [index: number]: any }
 
 /** Element types */
 type AllElements =  {
@@ -74,56 +75,7 @@ type AllElements =  {
 type CreatedHTMLElement<T extends keyof AllElements> = AllElements[T];
 
 /** HTML element type by string, Default HTMLElement */
-export type CreatedElement<T extends string> =
-    T extends keyof AllElements ? CreatedHTMLElement<T> : HTMLElement;
-
-/**
- * Takes any string and returns the given string with the first character
- * capitalized and the rest of the string in lower case.
- *
- * @param text A string whose first character shall be capitalized.
- * @returns The modified string.
- */
-export function ucfirst(text: string): string {
-  return text.toLowerCase().charAt(0).toUpperCase()
-    + text.slice(1).toLowerCase();
-}
-
-/**
- * Concatinates all properties of an object into a flat string without
- * any separators or anything.
- * This function will recursively call itself to parse nested objects.
- *
- * @param obj The object whose values will be concatinated.
- * @param glue The glue used to concat values.
- * @returns All values of the given object.
- */
-export function concatValues(obj: AnyObject, glue: string): string {
-
-  let storage: Array<string> = [];
-
-  /* Iterate all property names of the object */
-  for (let prop in obj) {
-
-    /* If the object key is an object itself */
-    if (obj[prop] instanceof Object) {
-
-      /* Recursive call to concat the nestet object values too */
-      storage.push(concatValues(obj[prop], glue));
-
-    } else if (obj[prop] instanceof Array) {
-
-      /* Use join function */
-      storage.push(obj[prop].join());
-    } else {
-
-      /* Whatever it is, it will be added to the string */
-      storage.push(obj[prop]);
-    }
-  }
-
-  return storage.join(glue);
-}
+export type CreatedElement<T extends string> = T extends keyof AllElements ? CreatedHTMLElement<T> : HTMLElement;
 
 /**
  *
@@ -348,18 +300,6 @@ export function getSiblings(elem: HTMLElement, className: string): Array<HTMLEle
   }
 
   return siblings;
-}
-
-/**
- * Generates a UUID by recursivly calling itself.
- *
- * @returns A UUID
- */
-export function uuid(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
-    return v.toString(16);
-  });
 }
 
 /**
