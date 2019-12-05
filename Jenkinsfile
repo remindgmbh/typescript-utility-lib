@@ -24,6 +24,11 @@ pipeline {
           reportName: "Nyc Coverage Report"
         ])
       }
+      post {
+        always {
+          junit "test-results.xml"
+        }
+      }
     }
   }
 }
