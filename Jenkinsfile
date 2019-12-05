@@ -13,12 +13,16 @@ pipeline {
       }
     }
     stage('Test') {
-      parallel {
-        stage('Run Tests') {
-          steps {
-            sh 'npm test'
-          }
-        }
+      steps {
+        sh 'npm test'
+        publishHTML (target: [
+          allowMissing: false,
+          alwaysLinkToLastBuild: false,
+          keepAll: true,
+          reportDir: 'coverage',
+           reportFiles: 'index.html',
+          reportName: "Nyc Coverage Report"
+        ])
       }
     }
   }

@@ -5,3 +5,4 @@ vscode
 node_modules
 .nyc_output
 dist
+coverage
