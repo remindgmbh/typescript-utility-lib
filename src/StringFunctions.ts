@@ -47,3 +47,11 @@ export function concatValues(obj: AnyObject, glue: string): string {
 
   return storage.join(glue);
 }
+
+/**
+ *
+ * @param item
+ */
+export function decodeListItem(item: string): string {
+  return decodeURIComponent(escape(atob(item)));
+}

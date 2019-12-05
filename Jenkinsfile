@@ -20,7 +20,7 @@ pipeline {
           alwaysLinkToLastBuild: false,
           keepAll: true,
           reportDir: 'coverage',
-           reportFiles: 'index.html',
+          reportFiles: 'index.html',
           reportName: "Nyc Coverage Report"
         ])
       }
