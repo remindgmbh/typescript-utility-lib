@@ -6,11 +6,8 @@ nbproject
 ### Node ###
 node_modules
 .nyc_output
-dist
 coverage
 test-results.xml
-types
-
 
 ### TSC ###
 *.d.ts
