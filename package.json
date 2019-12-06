@@ -8,7 +8,7 @@
     "typescript": "^3.7.3"
   },
   "scripts": {
-    "prepare": "tsc -p .",
+    "install": "tsc -p .",
     "test": "nyc mocha"
   },
   "repository": {
