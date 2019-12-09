@@ -7,10 +7,14 @@
     ".ts"
   ],
   "include": [
+    "**/*.js",
     "**/*.ts"
   ],
   "exclude": [
-    "**/*.d.ts"
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "coverage/**",
+    "node_modules/**"
   ],
   "require": [
     "ts-node/register"
@@ -18,5 +22,6 @@
   "sourceMap": true,
   "instrument": true,
   "check-coverage": true,
-  "cache": true
+  "cache": true,
+  "all": true
 }

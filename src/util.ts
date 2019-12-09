@@ -1,4 +1,5 @@
 import { AnyObject } from './Types'
+export { addEventListenerToElements, dispatchCustomEvent, PayloadInterface, removeEventListenerFromElements, runWhenLoaded } from './Events'
 export { ucfirst, concatValues, decodeListItem } from './StringFunctions'
 export { uuid } from './Uuid'
 
@@ -16,12 +17,6 @@ export interface HTMLElementDimension {
   left: number,
   bottom: number,
   right: number
-}
-
-export interface PayloadInterface {
-  detail: object;
-  bubbles: boolean;
-  cancelable: boolean;
 }
 
 /** Element types */
@@ -112,69 +107,6 @@ export function loadScript(options: ScriptTagAttributes, callback?: Function): v
 }
 
 /**
- *
- * @param cssClass Name of the css class
- * @param event Name of the event
- * @param callback Function executed on event
- * @param [context] Element that limits the scope
- * @returns {undefined}
- */
-export function addEventListenerToElements(cssClass: string, event: string, callback: EventListener, context?: HTMLElement): void {
-
-  /* Define the default scope in which the elements are searched */
-  let scope: HTMLElement|HTMLDocument = document;
-
-  /* If a specific context is given */
-  if (context) {
-
-    /* Limit the scope to the given context */
-    scope = context;
-  }
-
-  /* Get the array of elements matching the css classname */
-
-  let list: NodeListOf<Element>|HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass);
-
-  /* Iterate the list */
-  for (let i = 0, len = list.length; i < len; i++) {
-
-    /* Attach the event listener to each item */
-    list[i].addEventListener(event, callback);
-  }
-}
-
-/**
- *
- * @param cssClass Name of the css class
- * @param event Name of the event
- * @param callback Function executed on event
- * @param [context] Element that limits the scope
- * @returns
- */
-export function removeEventListenerFromElements(cssClass: string, event: string, callback: EventListener, context?: HTMLElement): void {
-
-  /* Define the default scope in which the elements are searched */
-  let scope: HTMLElement|HTMLDocument = document;
-
-  /* If a specific context is given */
-  if (context) {
-
-    /* Limit the scope to the given context */
-    scope = context;
-  }
-
-  /* Get the array of elements matching the css classname */
-  let list: NodeListOf<Element>|HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass);
-
-  /* Iterate the list */
-  for (let i = 0, len = list.length; i < len; i++) {
-
-    /* Attach the event listener to each item */
-    list[i].removeEventListener(event, callback);
-  }
-}
-
-/**
  * Merges the two given objects into one.
  *
  * @param obj1 The first object
@@ -244,15 +176,15 @@ export function getArrayMaxValue(numArray: Array<number>): number {
 
 /**
  *
- * @param elem
+ * @param element
  * @param className
- * @returns
+ * @returns All siblings
  */
-export function getSiblings(elem: HTMLElement, className: string): Array<HTMLElement> {
+export function getSiblings(element: HTMLElement, className: string): Array<HTMLElement> {
 
   let siblings: Array<HTMLElement> = [];
 
-  let parent: HTMLElement|null = elem.parentElement;
+  let parent: HTMLElement|null = element.parentElement;
 
   if (parent === null) {
     return [];
@@ -264,9 +196,9 @@ export function getSiblings(elem: HTMLElement, className: string): Array<HTMLEle
     return [];
   }
 
-  for (; sibling; sibling = <HTMLElement> sibling.nextSibling) {
+  while (sibling.nextSibling !== null) {
 
-    if (sibling.nodeType !== 1 || sibling === elem) {
+    if (sibling.nodeType !== 1 || sibling === element) {
       continue;
     }
 
@@ -280,28 +212,6 @@ export function getSiblings(elem: HTMLElement, className: string): Array<HTMLEle
   }
 
   return siblings;
-}
-
-/**
- * Executes a callback when the document is ready by first checking if the
- * document content has already been loaded or binding the execution of the
- * callback to the DOMContentLoaded event.
- *
- * @param callback
- * @returns
- */
-export function runWhenLoaded(callback: EventListener): void {
-
-  let event: Event = new Event('DOMContentLoaded');
-
-  /* Test if the document is already loaded */
-  if (document.readyState === 'complete') {
-    callback(event);
-
-    /* The DOMContentLoaded event should not have fired by now */
-  } else {
-    document.addEventListener('DOMContentLoaded', callback);
-  }
 }
 
 /**
@@ -387,7 +297,7 @@ export function getParentWithData(element: HTMLElement, attr: string): HTMLEleme
   /* If no matching dataset value was found */
   if (!element.dataset[attr]) {
 
-    let parent: HTMLElement|null = element.parentElement;
+    const parent: HTMLElement|null = element.parentElement;
 
     if (parent !== null) {
 
@@ -397,37 +307,6 @@ export function getParentWithData(element: HTMLElement, attr: string): HTMLEleme
   }
 
   return element;
-}
-
-/**
- * Browser compatible function to dispatch custom events
- *
- * @param target
- * @param eventName
- * @param payload
- * @returns
- */
-export function dispatchCustomEvent(target: EventTarget, eventName: string, payload: PayloadInterface = {detail: {}, bubbles: false, cancelable: false}): void {
-  let event: CustomEvent;
-
-  /*
-   * Microsoft Internet Explorer
-   * typeof(Event) == object
-   *
-   * Chrome / Safari / MI Edge / Firefox
-   * typeof(Event) == function
-   *
-   * Create event object or function, add eventName and payload
-   */
-  if (typeof(Event) === 'function') {
-    event = new CustomEvent(eventName, payload);
-  } else {
-    event = document.createEvent('CustomEvent');
-    event.initCustomEvent(eventName, payload.bubbles, payload.cancelable, payload.detail);
-  }
-
-  /* Dispatch event on target */
-  target.dispatchEvent(event);
 }
 
 /**
