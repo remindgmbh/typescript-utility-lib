@@ -8,8 +8,8 @@ import { AnyObject } from './Types'
  * @returns The modified string.
  */
 export function ucfirst(text: string): string {
-  return text.toLowerCase().charAt(0).toUpperCase()
-    + text.slice(1).toLowerCase();
+    return text.toLowerCase().charAt(0).toUpperCase()
+        + text.slice(1).toLowerCase()
 }
 
 /**
@@ -23,29 +23,29 @@ export function ucfirst(text: string): string {
  */
 export function concatValues(obj: AnyObject, glue: string): string {
 
-  let storage: Array<string> = [];
+    const storage: string[] = []
 
-  /* Iterate all property names of the object */
-  for (let prop in obj) {
+    /* Iterate all property names of the object */
+    for (const prop in obj) {
 
-    /* If the object key is an object itself */
-    if (obj[prop] instanceof Object) {
+        /* If the object key is an object itself */
+        if (obj[prop] instanceof Object) {
 
-      /* Recursive call to concat the nestet object values too */
-      storage.push(concatValues(obj[prop], glue));
+            /* Recursive call to concat the nestet object values too */
+            storage.push(concatValues(obj[prop], glue))
 
-    } else if (obj[prop] instanceof Array) {
+        } else if (obj[prop] instanceof Array) {
 
-      /* Use join function */
-      storage.push(obj[prop].join());
-    } else {
+            /* Use join function */
+            storage.push(obj[prop].join())
+        } else {
 
-      /* Whatever it is, it will be added to the string */
-      storage.push(obj[prop]);
+            /* Whatever it is, it will be added to the string */
+            storage.push(obj[prop])
+        }
     }
-  }
 
-  return storage.join(glue);
+    return storage.join(glue)
 }
 
 /**
@@ -53,5 +53,5 @@ export function concatValues(obj: AnyObject, glue: string): string {
  * @param item
  */
 export function decodeListItem(item: string): string {
-  return decodeURIComponent(escape(atob(item)));
+    return decodeURIComponent(escape(atob(item)))
 }

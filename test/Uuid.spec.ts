@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { uuid } from '../src/Uuid'
+import { uuid } from '..'
 
 describe('UUID', () => {
 

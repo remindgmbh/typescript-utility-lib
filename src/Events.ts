@@ -24,24 +24,24 @@ export interface PayloadInterface {
 export function addEventListenerToElements(cssClass: string, event: string, callback: EventListener, context?: HTMLElement): void {
 
     /* Define the default scope in which the elements are searched */
-    let scope: HTMLElement | HTMLDocument = document;
+    let scope: HTMLElement | HTMLDocument = document
 
     /* If a specific context is given */
     if (context) {
 
         /* Limit the scope to the given context */
-        scope = context;
+        scope = context
     }
 
     /* Get the array of elements matching the css classname */
 
-    let list: NodeListOf<Element> | HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass);
+    const list: NodeListOf<Element> | HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass)
 
     /* Iterate the list */
     for (let i = 0, len = list.length; i < len; i++) {
 
         /* Attach the event listener to each item */
-        list[i].addEventListener(event, callback);
+        list[i].addEventListener(event, callback)
     }
 }
 
@@ -55,23 +55,23 @@ export function addEventListenerToElements(cssClass: string, event: string, call
 export function removeEventListenerFromElements(cssClass: string, event: string, callback: EventListener, context?: HTMLElement): void {
 
     /* Define the default scope in which the elements are searched */
-    let scope: HTMLElement | HTMLDocument = document;
+    let scope: HTMLElement | HTMLDocument = document
 
     /* If a specific context is given */
     if (context) {
 
         /* Limit the scope to the given context */
-        scope = context;
+        scope = context
     }
 
     /* Get the array of elements matching the css classname */
-    let list: NodeListOf<Element> | HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass);
+    const list: NodeListOf<Element> | HTMLCollectionOf<Element> = scope.getElementsByClassName(cssClass)
 
     /* Iterate the list */
     for (let i = 0, len = list.length; i < len; i++) {
 
         /* Attach the event listener to each item */
-        list[i].removeEventListener(event, callback);
+        list[i].removeEventListener(event, callback)
     }
 }
 
@@ -84,15 +84,15 @@ export function removeEventListenerFromElements(cssClass: string, event: string,
  */
 export function runWhenLoaded(callback: EventListener): void {
 
-    let event: Event = new Event('DOMContentLoaded');
+    const event: Event = new Event('DOMContentLoaded')
 
     /* Test if the document is already loaded */
     if (document.readyState === 'complete') {
-        callback(event);
+        callback(event)
 
         /* The DOMContentLoaded event should not have fired by now */
     } else {
-        document.addEventListener('DOMContentLoaded', callback);
+        document.addEventListener('DOMContentLoaded', callback)
     }
 }
 
@@ -107,7 +107,7 @@ export function runWhenLoaded(callback: EventListener): void {
 export function dispatchCustomEvent(target: EventTarget, eventName: string, payload: PayloadInterface = { detail: {}, bubbles: false, cancelable: false }): void {
 
     /*  */
-    let event: CustomEvent;
+    let event: CustomEvent
 
     /*
      * Microsoft Internet Explorer
@@ -119,12 +119,12 @@ export function dispatchCustomEvent(target: EventTarget, eventName: string, payl
      * Create event object or function, add eventName and payload
      */
     if (typeof (Event) === 'function') {
-        event = new CustomEvent(eventName, payload);
+        event = new CustomEvent(eventName, payload)
     } else {
         event = document.createEvent('CustomEvent');
-        event.initCustomEvent(eventName, payload.bubbles, payload.cancelable, payload.detail);
+        event.initCustomEvent(eventName, payload.bubbles, payload.cancelable, payload.detail)
     }
 
     /* Dispatch event on target */
-    target.dispatchEvent(event);
+    target.dispatchEvent(event)
 }

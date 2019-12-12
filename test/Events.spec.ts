@@ -1,4 +1,4 @@
-import { addEventListenerToElements, removeEventListenerFromElements, runWhenLoaded } from '../src/Events'
+import { addEventListenerToElements, removeEventListenerFromElements, runWhenLoaded } from '..'
 
 describe('Events', () => {
 
@@ -16,7 +16,7 @@ describe('Events', () => {
     document.body.appendChild(span1)
     document.body.appendChild(span2)
 
-    it('should add event listener to elements', (done) => {
+    it('should add event listener to elements', (done: Mocha.Done) => {
 
         /** when the function is called the test is successfull */
         const handler: EventListener = () => { done() }
@@ -28,9 +28,9 @@ describe('Events', () => {
         span1.dispatchEvent(new Event('test'))
     })
 
-    it('should remove event listener from elements', (done) => {
+    it('should remove event listener from elements', (done: Mocha.Done) => {
 
-        const timeout: NodeJS.Timeout = setTimeout(done, 100)
+        const timeout: NodeJS.Timeout = setTimeout(done, 33)
 
         const handler: EventListener = () => {
             clearTimeout(timeout)
@@ -44,21 +44,26 @@ describe('Events', () => {
         span1.dispatchEvent(new Event('click'))
     })
 
-    it('should run when document is loaded', (done) => {
+    it('should run when document is loaded', (done: Mocha.Done) => {
 
         runWhenLoaded(() => {
             done()
         })
     })
 
-    it('should register DOMContentLoaded event', (done) => {
+    it('should register DOMContentLoaded event', (done: Mocha.Done) => {
 
-        Object.defineProperty(document, "readyState", {
+        Object.defineProperty(document, 'readyState', {
             get() { return 'loading' }
         })
 
-        runWhenLoaded(() => {
-            done()
-        })
+        const timeout: NodeJS.Timeout = setTimeout(done, 33)
+
+        const handler: EventListener = () => {
+            clearTimeout(timeout)
+            done(new Error('Event handler was not removed'))
+        }
+
+        runWhenLoaded(handler)
     })
 })
