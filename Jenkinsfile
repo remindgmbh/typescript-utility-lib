@@ -15,17 +15,17 @@ pipeline {
     stage('Test') {
       steps {
         sh 'npm test'
-        publishHTML (target: [
-          allowMissing: false,
-          alwaysLinkToLastBuild: false,
-          keepAll: true,
-          reportDir: 'coverage',
-          reportFiles: 'index.html',
-          reportName: "Nyc Coverage Report"
-        ])
       }
       post {
         always {
+          publishHTML (target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: 'coverage',
+            reportFiles: 'index.html',
+            reportName: "Nyc Coverage Report"
+          ])
           junit "test-results.xml"
         }
       }
