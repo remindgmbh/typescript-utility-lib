@@ -12,11 +12,9 @@ export function getSiblings(element: HTMLElement, className?: string): HTMLEleme
         return []
     }
 
-    const first: HTMLElement = parent.firstChild as HTMLElement
-
     const siblings: HTMLElement[] = []
 
-    let next: HTMLElement | null = first.nextSibling as HTMLElement
+    let next: HTMLElement | null = parent.firstChild as HTMLElement
 
     while (next !== null) {
 

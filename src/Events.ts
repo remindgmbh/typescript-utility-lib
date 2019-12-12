@@ -84,13 +84,16 @@ export function removeEventListenerFromElements(cssClass: string, event: string,
  */
 export function runWhenLoaded(callback: EventListener): void {
 
-    const event: Event = new Event('DOMContentLoaded')
-
     /* Test if the document is already loaded */
     if (document.readyState === 'complete') {
-        callback(event)
+        console.log('complete')
+        callback(new Event('loaded'))
 
-        /* The DOMContentLoaded event should not have fired by now */
+    } else if (document.readyState === 'interactive') {
+        console.log('interactive')
+        callback(new Event('DOMContentLoaded'))
+
+    /* The DOMContentLoaded event should not have fired by now */
     } else {
         document.addEventListener('DOMContentLoaded', callback)
     }

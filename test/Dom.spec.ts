@@ -1,7 +1,12 @@
 import { expect } from 'chai'
+import jsdomGlobal = require('jsdom-global')
 import { loadScript, getBottomLeftPosition, getSiblings, getFirstParentId } from '..'
 
-describe('DOM', () => {
+describe('DOM', function() {
+
+    this.beforeEach(() => {
+        jsdomGlobal()
+    })
 
     it('should create a script element in the body', () => {
 
@@ -16,7 +21,7 @@ describe('DOM', () => {
 
         loadScript({ src: 'test.js', loadInHead: true })
 
-        const result: number = document.body.getElementsByTagName('script').length;
+        const result: number = document.head.getElementsByTagName('script').length;
 
         expect(result).to.equal(1)
     })
@@ -71,9 +76,9 @@ describe('DOM', () => {
             document.body.appendChild(el)
         }
 
-        const test1: HTMLDivElement = document.getElementById('test-sibling1') as HTMLDivElement
+        const test5: HTMLDivElement = document.getElementById('test-sibling5') as HTMLDivElement
 
-        const result: HTMLElement[] = getSiblings(test1, 'test-siblings')
+        const result: HTMLElement[] = getSiblings(test5, 'test-siblings')
 
         expect(result.length).to.equal(9)
     })
@@ -101,21 +106,28 @@ describe('DOM', () => {
         el.id = 'pbody'
         document.body.appendChild(el)
 
+        for (let i = 0; i < 10; i++) {
+            document.body.appendChild(document.createElement('div'))
+        }
+
         const result: HTMLElement[] = getSiblings(document.getElementById('pbody') as HTMLElement)
 
-        expect(result.length).to.equal(16)
+        expect(result.length).to.equal(10)
     })
 
     it('should get the first parent with an id', () => {
 
+        const parent: HTMLDivElement = document.createElement('div')
+        parent.id = 'test-parent'
+        document.body.appendChild(parent)
+
         const el: HTMLSpanElement = document.createElement('span')
-        const parent: HTMLDivElement = document.getElementById('test-sibling5') as HTMLDivElement
 
         parent.appendChild(el)
 
         const id: string = getFirstParentId(el)
 
-        expect(id).to.equal('test-sibling5')
+        expect(id).to.equal('test-parent')
     })
 
     it('should return body as a fallback for body', () => {
