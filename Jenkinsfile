@@ -28,6 +28,14 @@ pipeline {
           ])
           junit "test-results.xml"
         }
+
+        success {
+          slackSend(color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Success (<${env.BUILD_URL}|Open>)")
+        }
+
+        failure {
+          slackSend(color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Failure (<${env.BUILD_URL}|Open>)")
+        }
       }
     }
   }
