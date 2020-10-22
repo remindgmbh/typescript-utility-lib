@@ -2,8 +2,7 @@
     "name": "@remindgmbh/util",
     "version": "0.4.1",
     "description": "Utility functions",
-    "main": "index.js",
-    "types": "index.d.ts",
+    "main": "index.ts",
     "dependencies": {
         "typescript": "^3.9.7"
     },
