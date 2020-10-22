@@ -8,11 +8,6 @@
  */
 export function getParentWithData(element: HTMLElement, attr: string): HTMLElement | null {
 
-    /* If we have reached the body tag */
-    if (element.tagName === 'BODY') {
-        return null
-    }
-
     /* If no matching dataset value was found */
     if (!element.dataset[attr]) {
 

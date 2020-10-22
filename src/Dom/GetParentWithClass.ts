@@ -8,11 +8,6 @@
  */
 export function getParentWithClass(element: HTMLElement, classname: string): HTMLElement | null {
 
-    /* If we have reached the body tag */
-    if (element.tagName === 'BODY') {
-        return null
-    }
-
     /* If no value was returned */
     if (!element.classList.contains(classname)) {
 

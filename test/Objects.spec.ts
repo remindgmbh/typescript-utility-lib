@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { mergeObjects, MergedObjectType } from '..'
+import { mergeObjects, MergedObjectType } from '../src/Objects'
 
 describe('Objects', () => {
 

@@ -1,146 +1,252 @@
 import { expect } from 'chai'
 import jsdomGlobal = require('jsdom-global')
-import { loadScript, getBottomLeftPosition, getSiblings, getFirstParentId } from '..'
+import { loadScript, getBottomLeftPosition, getSiblings, getFirstParentId, getParentWithClass, getParentWithData } from '../src/Dom'
 
-describe('DOM', function() {
+describe('DOM', function () {
 
     this.beforeEach(() => {
         jsdomGlobal()
     })
 
-    it('should create a script element in the body', () => {
+    describe('loadScript', function () {
 
-        loadScript({ src: 'test.js' })
+        it('should create a script element in the body', () => {
 
-        const result: number = document.body.getElementsByTagName('script').length;
+            loadScript({ src: 'test.js' })
 
-        expect(result).to.equal(1)
+            const result: number = document.body.getElementsByTagName('script').length;
+
+            expect(result).to.equal(1)
+        })
+
+        it('should create a script element in the head', () => {
+
+            loadScript({ src: 'test.js', loadInHead: true })
+
+            const result: number = document.head.getElementsByTagName('script').length;
+
+            expect(result).to.equal(1)
+        })
+
+        it('should create a script element and execute the callback', (done: Mocha.Done) => {
+
+            loadScript({ src: 'test.js' }, done)
+        })
+
+        it('should create script tag with an id', () => {
+
+            loadScript({ src: 'test.js', id: 'script-test' })
+
+            const elem: HTMLScriptElement = document.getElementById('script-test') as HTMLScriptElement
+
+            expect(elem.id).to.equal('script-test')
+        })
+
     })
 
-    it('should create a script element in the head', () => {
+    describe('getBottomLeftPosition', function () {
 
-        loadScript({ src: 'test.js', loadInHead: true })
+        it('should get the position data from an element', () => {
 
-        const result: number = document.head.getElementsByTagName('script').length;
+            const e: HTMLDivElement = document.createElement('div')
+            e.scrollLeft = 10
+            e.style.width = '100px'
+            e.style.height = '100px'
 
-        expect(result).to.equal(1)
+            const child = document.body.appendChild(e)
+
+            const result = getBottomLeftPosition(child)
+
+            expect(result.top).to.equal(0)
+            expect(result.right).to.equal(0)
+            expect(result.bottom).to.equal(0)
+            expect(result.left).to.equal(-10)
+        })
+
+        it('should get the position data from the body', () => {
+
+            const result = getBottomLeftPosition(document.body)
+
+            expect(result.top).to.equal(0)
+            expect(result.right).to.equal(0)
+            expect(result.bottom).to.equal(0)
+            expect(result.left).to.equal(0)
+        })
+
     })
 
-    it('should create a script element and execute the callback', (done: Mocha.Done) => {
+    describe('getSiblings', function () {
 
-        loadScript({ src: 'test.js' }, done)
-    })
+        it('should get siblings', () => {
 
-    it('should create script tag with an id', () => {
+            for (let i = 0; i < 10; i++) {
+                const el: HTMLDivElement = document.createElement('div')
+                el.id = 'test-sibling' + i
+                el.classList.add('test-siblings')
+                document.body.appendChild(el)
+            }
 
-        loadScript({ src: 'test.js', id: 'script-test' })
+            const test5: HTMLDivElement = document.getElementById('test-sibling5') as HTMLDivElement
 
-        const elem: HTMLScriptElement = document.getElementById('script-test') as HTMLScriptElement
+            const result: HTMLElement[] = getSiblings(test5, 'test-siblings')
 
-        expect(elem.id).to.equal('script-test')
-    })
+            expect(result.length).to.equal(9)
+        })
 
-    it('should get the position data from an element', () => {
+        it('should get no siblings when using non-existent css-class', () => {
 
-        const e: HTMLDivElement = document.createElement('div')
-        e.scrollLeft = 10
-        e.style.width = '100px'
-        e.style.height = '100px'
+            const result: HTMLElement[] = getSiblings(document.body.parentElement as HTMLElement, 'nothing')
 
-        const child = document.body.appendChild(e)
+            expect(result.length).to.equal(0)
+        })
 
-        const result = getBottomLeftPosition(child)
+        it('should get no siblings for element with no siblings', () => {
 
-        expect(result.top).to.equal(0)
-        expect(result.right).to.equal(0)
-        expect(result.bottom).to.equal(0)
-        expect(result.left).to.equal(-10)
-    })
-
-    it('should get the position data from the body', () => {
-
-        const result = getBottomLeftPosition(document.body)
-
-        expect(result.top).to.equal(0)
-        expect(result.right).to.equal(0)
-        expect(result.bottom).to.equal(0)
-        expect(result.left).to.equal(0)
-    })
-
-    it('should get siblings', () => {
-
-        for (let i = 0; i < 10; i++) {
-            const el: HTMLDivElement = document.createElement('div')
-            el.id = 'test-sibling' + i
-            el.classList.add('test-siblings')
+            const el: HTMLParagraphElement = document.createElement('p')
             document.body.appendChild(el)
-        }
 
-        const test5: HTMLDivElement = document.getElementById('test-sibling5') as HTMLDivElement
+            const result: HTMLElement[] = getSiblings(el, 'nothing')
 
-        const result: HTMLElement[] = getSiblings(test5, 'test-siblings')
+            expect(result.length).to.equal(0)
+        })
 
-        expect(result.length).to.equal(9)
+        it('should get all siblings for element without using classname', () => {
+
+            const el: HTMLParagraphElement = document.createElement('p')
+            el.id = 'pbody'
+            document.body.appendChild(el)
+
+            for (let i = 0; i < 10; i++) {
+                document.body.appendChild(document.createElement('div'))
+            }
+
+            const result: HTMLElement[] = getSiblings(document.getElementById('pbody') as HTMLElement)
+
+            expect(result.length).to.equal(10)
+        })
+
     })
 
-    it('should get no siblings when using non-existent css-class', () => {
+    describe('getFirstParentId', function () {
 
-        const result: HTMLElement[] = getSiblings(document.body.parentElement as HTMLElement, 'nothing')
+        it('should get the first parent with an id', () => {
 
-        expect(result.length).to.equal(0)
+            const parent: HTMLDivElement = document.createElement('div')
+            parent.id = 'test-parent'
+            document.body.appendChild(parent)
+
+            const el: HTMLSpanElement = document.createElement('span')
+
+            parent.appendChild(el)
+
+            const id: string = getFirstParentId(el)
+
+            expect(id).to.equal('test-parent')
+        })
+
+        it('should return body as a fallback for body', () => {
+
+            const id: string = getFirstParentId(document.body)
+
+            expect(id).to.equal('body')
+        })
+
+        it('should return an empty string as a fallback for the html node', () => {
+
+            const id: string = getFirstParentId(document.body.parentElement as HTMLElement)
+
+            expect(id).to.equal('')
+        })
+
     })
 
-    it('should get no siblings for element with no siblings', () => {
+    describe('getParentWithClass', function () {
 
-        const el: HTMLParagraphElement = document.createElement('p')
-        document.body.appendChild(el)
+        it('should return the direct parent with the requested class', () => {
 
-        const result: HTMLElement[] = getSiblings(el, 'nothing')
+            const main: HTMLElement = document.createElement('main')
+            const section: HTMLElement = document.createElement('section')
+            section.classList.add('unittest')
 
-        expect(result.length).to.equal(0)
+            const child: HTMLDivElement = document.createElement('div')
+
+            main.appendChild(section)
+            section.appendChild(child)
+            document.body.appendChild(main)
+
+            const result = getParentWithClass(child, 'unittest')
+
+            expect(result).to.equal(section)
+        })
+
+        it('should return the absolute parent with the requested class', () => {
+
+            const main: HTMLElement = document.createElement('main')
+            main.classList.add('unittest')
+
+            const section: HTMLElement = document.createElement('section')
+            const child: HTMLDivElement = document.createElement('div')
+
+            main.appendChild(section)
+            section.appendChild(child)
+            document.body.appendChild(main)
+
+            const result = getParentWithClass(child, 'unittest')
+
+            expect(result).to.equal(main)
+        })
+
+        it('should return null when given the body as a start', () => {
+
+            const result = getParentWithClass(document.body, 'unittest')
+
+            expect(result).to.be.null
+        })
+
     })
 
-    it('should get all siblings for element without using classname', () => {
+    describe('getParentWithData', function () {
 
-        const el: HTMLParagraphElement = document.createElement('p')
-        el.id = 'pbody'
-        document.body.appendChild(el)
+        it('should return the direct parent with the requested data-attribute', () => {
 
-        for (let i = 0; i < 10; i++) {
-            document.body.appendChild(document.createElement('div'))
-        }
+            const main: HTMLElement = document.createElement('main')
+            const section: HTMLElement = document.createElement('section')
+            section.dataset['unitTest'] = 'yes'
 
-        const result: HTMLElement[] = getSiblings(document.getElementById('pbody') as HTMLElement)
+            const child: HTMLDivElement = document.createElement('div')
 
-        expect(result.length).to.equal(10)
-    })
+            main.appendChild(section)
+            section.appendChild(child)
+            document.body.appendChild(main)
 
-    it('should get the first parent with an id', () => {
+            const result = getParentWithData(child, 'unitTest')
 
-        const parent: HTMLDivElement = document.createElement('div')
-        parent.id = 'test-parent'
-        document.body.appendChild(parent)
+            expect(result).to.equal(section)
+        })
 
-        const el: HTMLSpanElement = document.createElement('span')
+        it('should return the absolute parent with the requested class', () => {
 
-        parent.appendChild(el)
+            const main: HTMLElement = document.createElement('main')
+            main.dataset['unitTest'] = 'yes'
 
-        const id: string = getFirstParentId(el)
+            const section: HTMLElement = document.createElement('section')
+            const child: HTMLDivElement = document.createElement('div')
 
-        expect(id).to.equal('test-parent')
-    })
+            main.appendChild(section)
+            section.appendChild(child)
+            document.body.appendChild(main)
 
-    it('should return body as a fallback for body', () => {
+            const result = getParentWithData(child, 'unitTest')
 
-        const id: string = getFirstParentId(document.body)
+            expect(result).to.equal(main)
+        })
 
-        expect(id).to.equal('body')
-    })
+        it('should return null when given the body as a start', () => {
 
-    it('should return an empty string as a fallback for the html node', () => {
+            const result = getParentWithData(document.body, 'unitTest')
 
-        const id: string = getFirstParentId(document.body.parentElement as HTMLElement)
+            expect(result).to.be.null
+        })
 
-        expect(id).to.equal('')
     })
 })

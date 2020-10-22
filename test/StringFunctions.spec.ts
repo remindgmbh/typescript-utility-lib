@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { ucfirst, concatValues } from '..'
+import { ucfirst, concatValues } from '../src/StringFunctions'
 
 describe('upper character first function', () => {
 

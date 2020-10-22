@@ -1,5 +1,3 @@
-import { AnyObject } from './Types'
-
 /**
  * Takes any string and returns the given string with the first character
  * capitalized and the rest of the string in lower case.
@@ -21,7 +19,7 @@ export function ucfirst(text: string): string {
  * @param glue The glue used to concat values.
  * @returns All values of the given object.
  */
-export function concatValues(obj: AnyObject, glue: string): string {
+export function concatValues(obj: any, glue: string): string {
 
     const storage: string[] = []
 
