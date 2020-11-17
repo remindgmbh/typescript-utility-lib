@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import jsdomGlobal = require('jsdom-global')
-import { loadScript, getBottomLeftPosition, getSiblings, getFirstParentId, getParentWithClass, getParentWithData } from '../src/Dom'
+import { loadScript, getBottomLeftPosition, getSiblings, getFirstParentId, getParentWithClass, getParentWithData } from '..'
 
 describe('DOM', function () {
 

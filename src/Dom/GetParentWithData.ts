@@ -18,6 +18,8 @@ export function getParentWithData(element: HTMLElement, attr: string): HTMLEleme
             /* Recursive call */
             return getParentWithData(parent, attr)
         }
+
+        return null
     }
 
     return element

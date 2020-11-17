@@ -1,12 +1,13 @@
-# REMIND Typescript Utility
+# REMIND - TypeScript Utility Library
 
-Such utility very typescript
+[travis-img]: https://img.shields.io/travis/remindgmbh/typescript-utility-library.svg?style=flat-square
+[codecov-img]: https://img.shields.io/codecov/c/github/remindgmbh/typescript-utility-library.svg?style=flat-square
+[github-issues-img]: https://img.shields.io/github/issues/remindgmbh/typescript-utility-library.svg?style=flat-square
+[contrib-welcome-img]: https://img.shields.io/badge/contributions-welcome-blue.svg?style=flat-square
+[license-img]: https://img.shields.io/github/license/remindgmbh/typescript-utility-library.svg?style=flat-square
 
-![remind-badge](https://img.shields.io/badge/author-REMIND-black.svg?style=flat-square)
-![license-badge](https://img.shields.io/badge/license-GPL--3.0-blue.svg?style=flat-square)
-![version-badge](https://img.shields.io/badge/version-0.4.1-lightgrey.svg?style=flat-square)
-
-## Build Status
-
-[![build-master](https://jenkins.remind.de/buildStatus/icon?job=remind-util%2Fmaster&subject=master&style=flat-square)](https://jenkins.remind.de/job/remind-util/)
-[![build-develop](https://jenkins.remind.de/buildStatus/icon?job=remind-util%2Fdevelop&subject=develop&style=flat-square)](https://jenkins.remind.de/job/remind-util/)
+[![travis-img]](https://travis-ci.com/github/remindgmbh/typescript-utility-library)
+[![codecov-img]](https://codecov.io/gh/remindgmbh/typescript-utility-library)
+[![github-issues-img]](https://github.com/remindgmbh/typescript-utility-library/issues)
+[![contrib-welcome-img]](https://github.com/remindgmbh/typescript-utility-library/blob/master/CONTRIBUTING.md)
+[![license-img]](https://github.com/remindgmbh/typescript-utility-library/blob/master/LICENSE)

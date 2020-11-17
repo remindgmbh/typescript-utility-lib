@@ -14,9 +14,12 @@ export function getParentWithClass(element: HTMLElement, classname: string): HTM
         const parent: HTMLElement | null = element.parentElement
 
         if (parent !== null) {
+
             /* Try the parent element recursivly */
             return getParentWithClass(parent, classname)
         }
+
+        return null
     }
 
     return element

@@ -1,5 +1,5 @@
 import jsdomGlobal = require('jsdom-global')
-import { addEventListenerToElements, removeEventListenerFromElements, runWhenLoaded } from '../src/Events'
+import { addEventListenerToElements, removeEventListenerFromElements, runWhenLoaded } from '..'
 
 describe('Events', function() {
 

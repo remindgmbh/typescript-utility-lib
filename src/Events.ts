@@ -86,11 +86,9 @@ export function runWhenLoaded(callback: EventListener): void {
 
     /* Test if the document is already loaded */
     if (document.readyState === 'complete') {
-        console.log('complete')
         callback(new Event('loaded'))
 
     } else if (document.readyState === 'interactive') {
-        console.log('interactive')
         callback(new Event('DOMContentLoaded'))
 
     /* The DOMContentLoaded event should not have fired by now */

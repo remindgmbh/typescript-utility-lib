@@ -32,10 +32,6 @@ export function concatValues(obj: any, glue: string): string {
             /* Recursive call to concat the nestet object values too */
             storage.push(concatValues(obj[prop], glue))
 
-        } else if (obj[prop] instanceof Array) {
-
-            /* Use join function */
-            storage.push(obj[prop].join())
         } else {
 
             /* Whatever it is, it will be added to the string */
