@@ -1,6 +1,6 @@
 {
     "name": "@remindgmbh/typescript-utility-lib",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Collection of utilities.",
     "main": "index.ts",
     "dependencies": {
@@ -20,7 +20,7 @@
         "@types/chai": "^4.2.14",
         "@types/jsdom-global": "^3.0.2",
         "@types/mocha": "^8.0.3",
-        "@types/node": "^14.14.2",
+        "@types/node": "^14.14.8",
         "@typescript-eslint/eslint-plugin": "^4.8.1",
         "@typescript-eslint/parser": "^4.8.1",
         "canvas": "^2.6.1",
