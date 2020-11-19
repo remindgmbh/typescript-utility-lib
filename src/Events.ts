@@ -86,10 +86,10 @@ export function runWhenLoaded(callback: EventListener): void {
 
     /* Test if the document is already loaded */
     if (document.readyState === 'complete') {
-        callback(new Event('loaded'))
+        callback(createCustomEvent('loaded'))
 
     } else if (document.readyState === 'interactive') {
-        callback(new Event('DOMContentLoaded'))
+        callback(createCustomEvent('DOMContentLoaded'))
 
     /* The DOMContentLoaded event should not have fired by now */
     } else {
@@ -106,6 +106,18 @@ export function runWhenLoaded(callback: EventListener): void {
  * @returns
  */
 export function dispatchCustomEvent(target: EventTarget, eventName: string, payload: PayloadInterface = { detail: {}, bubbles: false, cancelable: false }): void {
+
+    /* Dispatch event on target */
+    target.dispatchEvent(createCustomEvent(eventName, payload))
+}
+
+/**
+ * Create a cross browser compatible CustomEvent instance.
+ *
+ * @param eventName
+ * @param payload
+ */
+export function createCustomEvent(eventName: string, payload: PayloadInterface = { detail: {}, bubbles: false, cancelable: false }): CustomEvent {
 
     /*  */
     let event: CustomEvent
@@ -126,6 +138,5 @@ export function dispatchCustomEvent(target: EventTarget, eventName: string, payl
         event.initCustomEvent(eventName, payload.bubbles, payload.cancelable, payload.detail)
     }
 
-    /* Dispatch event on target */
-    target.dispatchEvent(event)
+    return event
 }
