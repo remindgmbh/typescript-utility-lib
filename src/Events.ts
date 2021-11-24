@@ -41,7 +41,7 @@ export function addEventListenerToElements(cssClass: string, event: string, call
     for (let i = 0, len = list.length; i < len; i++) {
 
         /* Attach the event listener to each item */
-        list[i].addEventListener(event, callback)
+        list[i]?.addEventListener(event, callback)
     }
 }
 
@@ -71,7 +71,7 @@ export function removeEventListenerFromElements(cssClass: string, event: string,
     for (let i = 0, len = list.length; i < len; i++) {
 
         /* Attach the event listener to each item */
-        list[i].removeEventListener(event, callback)
+        list[i]?.removeEventListener(event, callback)
     }
 }
 

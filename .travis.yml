@@ -5,6 +5,8 @@ dist: xenial
 
 node_js:
     - 12
+    - 14
+    - 16
     - lts/*
 
 notifications:
@@ -16,5 +18,5 @@ script:
   - npm i
   - npm test
 
-after_success:
+after_script:
   - codecov

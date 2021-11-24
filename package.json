@@ -1,36 +1,37 @@
 {
     "name": "@remindgmbh/typescript-utility-lib",
-    "version": "0.3.0",
-    "description": "Collection of utilities.",
-    "main": "index.ts",
-    "dependencies": {
-        "typescript": "^4.0.3"
-    },
-    "scripts": {
-        "lint": "eslint ./src/**.ts",
-        "test": "nyc mocha"
-    },
+    "version": "0.4.0",
+    "description": "Collection of utilities",
+    "author": "Hauke Schulz <h.schulz@remind.de>",
+    "license": "BSD-3-Clause",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/remindgmbh/typescript-utility-lib"
+        "url": "https://github.com/remindgmbh/typescript-utility-lib.git"
     },
-    "author": "Hauke Schulz <h.schulz@remind.de> (https://www.remind.de/)",
-    "license": "BSD-3-Clause",
+    "scripts": {
+        "prepare": "tsc",
+        "build": "tsc",
+        "lint": "eslint ./index.ts ./src/**.ts",
+        "test": "nyc mocha"
+    },
+    "dependencies": {
+        "typescript": "^4.5.2"
+    },
     "devDependencies": {
-        "@types/chai": "^4.2.14",
+        "@types/chai": "^4.2.22",
         "@types/jsdom-global": "^3.0.2",
-        "@types/mocha": "^8.0.3",
-        "@types/node": "^14.14.8",
-        "@typescript-eslint/eslint-plugin": "^4.8.1",
-        "@typescript-eslint/parser": "^4.8.1",
-        "canvas": "^2.6.1",
-        "chai": "^4.2.0",
-        "eslint": "^7.11.0",
-        "jsdom": "^16.4.0",
+        "@types/mocha": "^9.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.0.0",
+        "@typescript-eslint/parser": "^5.0.0",
+        "chai": "^4.3.4",
+        "eslint": "^8.0.0",
+        "jsdom": "^18.1.0",
         "jsdom-global": "^3.0.2",
-        "mocha": "^8.2.0",
-        "mocha-junit-reporter": "^2.0.0",
+        "mocha": "^9.0.0",
+        "mocha-junit-reporter": "^2.0.2",
         "nyc": "^15.1.0",
-        "ts-node": "^9.0.0"
+        "ts-node": "^10.4.0"
     }
 }
